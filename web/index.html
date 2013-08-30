@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+		<script type="text/javascript" src="js/enchant.min.js"></script>
+		<script type="text/javascript" src="js/Box2dWeb-2.1.a.3.min.js"></script>
+		<script type="text/javascript" src="js/PhySprite.enchant.js"></script>
+		<script type="text/javascript">
+			enchant();
+			window.onload = function () {
+				var game = new Game(320, 320);
+
+				var d = 1;
+				game.preload('images/icon1.png');
+				game.onload = function () {
+					var physicsWorld = new PhysicsWorld(0, 9.8);
+
+					var phyBall = new PhyCircleSprite(8, DYNAMIC_SPRITE, 1.0, 0.5, 0.2, true);
+					phyBall.image = game.assets["images/icon1.png"];
+					phyBall.position = { x: 180, y: 0 };
+					game.rootScene.addChild(phyBall);
+
+					var floor = new PhyBoxSprite(256, 16, STATIC_SPRITE, 1.0, 0.5, 0.3, true);
+					floor.position = { x: 160, y: 300 };
+					game.rootScene.addChild(floor);
+
+					game.rootScene.addEventListener('enterframe', function() {
+						physicsWorld.step(game.fps);
+					});
+
+					game.rootScene.addEventListener('touchstart', function() {
+						phyBall.vy = -150;
+					});
+				};
+				game.start();
+			}
+		</script>
+	</body>
+</html>
