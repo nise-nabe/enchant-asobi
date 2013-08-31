@@ -19,17 +19,34 @@
 					var phyBall = new PhyCircleSprite(8, DYNAMIC_SPRITE, 1.0, 0.5, 0.2, true);
 					phyBall.image = game.assets["images/icon1.png"];
 					phyBall.position = { x: 180, y: 0 };
+					phyBall.vx = 150;
 					game.rootScene.addChild(phyBall);
 
 					var floor = new PhyBoxSprite(256, 16, STATIC_SPRITE, 1.0, 0.5, 0.3, true);
 					floor.position = { x: 160, y: 300 };
 					game.rootScene.addChild(floor);
 
+
+					var wall1 = new PhyBoxSprite(16, 300, STATIC_SPRITE, 1.0, 0.5, 1.0, true);
+					wall1.position = { x: 116, y: 300/2 };
+					game.rootScene.addChild(wall1);
+
+					var wall2 = new PhyBoxSprite(16, 300, STATIC_SPRITE, 1.0, 0.5, 1.0, true);
+					wall2.position = { x: 204, y: 300/2 };
+					game.rootScene.addChild(wall2);
+
 					game.rootScene.addEventListener('enterframe', function() {
 						physicsWorld.step(game.fps);
 					});
 
 					game.rootScene.addEventListener('touchstart', function() {
+						var sign = phyBall.vx?phyBall.vx<0?-1:1:0
+						phyBall.vx = sign * 150;
+						phyBall.vy = -150;
+					});
+					game.rootScene.addEventListener('touchmove', function() {
+						var sign = phyBall.vx?phyBall.vx<0?-1:1:0
+						phyBall.vx = sign * 150;
 						phyBall.vy = -150;
 					});
 				};
